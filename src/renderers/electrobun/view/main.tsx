@@ -5,12 +5,14 @@ import { App } from "../../../app";
 import { applyLanguageFromConfig } from "../../../i18n";
 import { debugLog } from "../../../utils/debug-log";
 import { capturePaneImage } from "../../../utils/dom-screenshot";
+import { setStallSink } from "../../../utils/main-thread-stall";
 import { measurePerfAsync } from "../../../utils/perf-marks";
 import {
   backendRequest,
   initElectrobunBackend,
   onBackendMessage,
   replaceElectrobunCapabilityManifests,
+  sendElectrobunStall,
   setElectrobunRemoteRequestHandler,
 } from "./backend-rpc";
 import { installElectrobunCapabilityStreamClient } from "./capability-stream-client";
@@ -49,6 +51,7 @@ import { loadOfficialPluginIds } from "../../../plugins/marketplace/feed";
 import { setPluginSeedNotice } from "../../../plugins/seed-notice";
 import { crashReportsEnabled, installCrashReporter, reportCrash } from "../../../telemetry/crash-reports";
 import { browserDoNotTrack, installWindowCrashListeners } from "../../../telemetry/crash-reports-dom";
+import { forwardAttendedStalls } from "../../../telemetry/stall-reports-dom";
 import { currentTelemetryConfig } from "../../../telemetry/live-config";
 import { attentionCountsEnabled, installAttentionCounter } from "../../../telemetry/attention-counts";
 import { installUsageCounter, usageCountsEnabled } from "../../../telemetry/usage-counts";
@@ -156,6 +159,8 @@ async function boot() {
     officialPluginIds: loadOfficialPluginIds,
   });
   installAttentionCounter(() => !init.telemetry.optedOut && !browserDoNotTrack() && attentionCountsEnabled(currentTelemetryConfig(init.config)));
+  // Desktop has no Debug Log: this window's freezes go to the Bun process, which keeps the stall log.
+  setStallSink(forwardAttendedStalls(sendElectrobunStall).sink);
   installElectrobunCapabilityStreamClient();
   installFocusScopeRelease();
   installElectrobunWindowFullscreenTracking();

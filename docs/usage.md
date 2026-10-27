@@ -474,7 +474,7 @@ date,value
 
 #### Series and panels
 
-Open **Series** to add, remove, reorder or hide series and choose each one's field, chart style, transform, axis, panel, period and panel scale. Price data supports candles, OHLC, HLC, line and area. Rising candles take their series' colour; Candle Colours in pane settings (`Ctrl+,`) switches them to Gains & losses, the theme's gain colour against its loss colour (green and red, or blue and vermillion in the Colorblind themes). Scalar data supports line, area, step, column and point. Panels can use independent left/right axes and linear or logarithmic scales.
+Open **Series** to add, remove, reorder or hide series and choose each one's field, chart style, transform, axis, panel, period and panel scale. Price data supports candles, hollow candles, Heikin Ashi, OHLC, HLC, line and area. Heikin Ashi bars average each bar with the one before, so its legend reads those averages while the last price marker keeps the traded close. Rising candles take their series' colour; Candle Colours in pane settings (`Ctrl+,`) switches them to Gains & losses, the theme's gain colour against its loss colour (green and red, or blue and vermillion in the Colorblind themes). Scalar data supports line, area, step, column and point. Panels can use independent left/right axes and linear or logarithmic scales.
 
 #### Financial periods
 
@@ -521,7 +521,7 @@ Charts with an x axis of their own (curves, smiles, scatter plots), the overview
 
 #### Pan and zoom
 
-Dragging the plot, the scroll wheel or trackpad, and `a`/`d` or Shift with the arrow keys pan the chart, loading older bars as it moves. Where a listing's bars at the chosen interval run out, the pan stops at the first one and the footer says where they start. Choosing the range already selected, by its number key or a click, returns a panned or zoomed chart to that range, as `0` does.
+Dragging the plot, the scroll wheel or trackpad, and `a`/`d` or Shift with the arrow keys pan the chart, loading older bars as it moves. On desktop and web a flick keeps gliding after the release and slows to a stop, while an ordinary drag stays where it was let go; any press, key or scroll stops the glide, and there is none when the system asks for reduced motion. Where a listing's bars at the chosen interval run out, the pan stops at the first one and the footer says where they start. Choosing the range already selected, by its number key or a click, returns a panned or zoomed chart to that range, as `0` does.
 
 Ctrl with the scroll wheel and a trackpad pinch on desktop and web zoom time around the pointer. `+`/`-` zoom from the newest bar in view. Dragging the time axis zooms the same way (left in, right out, double-click to fit).
 
@@ -533,6 +533,7 @@ Ctrl with the scroll wheel and a trackpad pinch on desktop and web zoom time aro
 - **Resize:** on desktop and web, drag the line between two panels (a double-click restores the split). On a focused chart, `Shift+Up` and `Shift+Down` make the top panel a row taller or shorter (the terminal too), and the pane menu has Reset Panel Heights.
 - **One panel full size:** a double-click on a panel's plot gives it the whole chart (two quick presses in the terminal). A double-click again, or the `All panels` button, shows the rest.
 - **Drawing tools:** `Shift+T`, Hide Drawing Tools in the pane menu, or the chevron at the end of the tool bar folds the bar to one button.
+- **Shapes:** besides the trend line (`Shift+D`) and freehand (`Shift+P`), `Shift+J` places a horizontal ray from a clicked price to the right edge, `Shift+B` drags a rectangle, and `Shift+F` drags a Fib retracement whose 0, 23.6, 38.2, 50, 61.8, 78.6 and 100% levels are labelled with their prices on desktop and web. Each is anchored to prices and times like the other drawings, and a build from before these tools shows them as plain lines.
 - **Legend:** `Shift+L`, Collapse Legend in the pane menu, or the chevron in the legend's left margin folds it to the first series and a count (`+5`). A folded series still draws.
 
 These are kept with the pane.
@@ -545,6 +546,7 @@ On intraday charts, bars outside the venue's regular session (pre-market, after-
 
 In the Indicators dialog (`i`), the highlighted study's setting sits beside Done: Period (`p`) for SMA, EMA, Bollinger, RSI and ATR, Bands (`b`) for VWAP, Rows (`n`) for the volume profile and Anchors (`a`) for anchored VWAP.
 
+- **Volume** bars take the price's colour where the bar rose and the falling colour where it fell, like the candles. Picking a colour for the volume study draws every bar in it instead.
 - **VWAP** is the volume-weighted average of the typical price, (high + low + close) / 3, from each session open. It needs intraday bars, and Bands add and subtract a whole number of volume-weighted standard deviations.
   - It restarts at the venue's open: 09:30 New York for US listings, 17:00 Central the evening before for CME Group and Cboe VIX futures, and each ICE U.S. contract's published open (Coffee 04:15, Sugar 03:30, Cocoa 04:45, Orange Juice 08:00 New York, Cotton 21:00 and the dollar index 20:00 the evening before).
   - A venue without known hours restarts at local midnight, or at midnight UTC for crypto.

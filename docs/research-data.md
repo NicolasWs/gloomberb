@@ -1408,6 +1408,29 @@ deviation of the last 20 daily log returns of the stored completed sessions (252
 year), US listings; HV rank places it between the lowest (0) and highest (100) HV20
 of the prior 52 weeks, each read at its own session, with at least 120 of them.
 
+The float and ownership fields cover US filers, and each is as of its own date.
+Shares outstanding is the latest 10-K or 10-Q cover count, as of the day it was
+counted, once the stored share count matches (within 1%) a cover filed in the last
+400 days, while the filer is current and no split separates the two: the count `DES`
+shows. Float is the stored company statistics' float. The source does not say when
+it measured it, so it is partial, with when the statistics were retrieved; it needs
+statistics retrieved in the last 30 days and is unavailable when it is above the
+dated shares outstanding by any margin, never held at the count. The `MOST` lists
+use the same float. Short % of float divides the shares short at the latest FINRA
+settlement by that float, as of the settlement, partial like the float, and is
+unavailable without a float or once the settlement is more than 45 days old. Institutional ownership sums the shares 13F filers reported in the ticker's
+CUSIPs for the latest quarter whose SEC data set is loaded, options excluded and
+each filer once, over the balance-sheet share count at a fiscal quarter end within 7
+days of that quarter's end, and is as of the quarter end. It is unavailable where no
+balance sheet falls that close (a company whose quarter ends in late July), and where
+the holdings and the count may not be the same shares: a balance-sheet count far from
+the cover count, a split between them, a value per share far from the quarter-end
+close, more than twice the count, or a share far from the one the listing's
+statistics state, which a CUSIP change causes. Over 100% is shown as partial with its
+reason, since a lent share is reported by its lender and by the fund that bought it.
+Insider ownership is not offered: the stored Form 4 filings cover recent trades, not
+every insider's holdings.
+
 The technical fields are read from the same stored daily bars, US listings only,
 over the latest run of consecutive completed sessions (at most 300), all at the last
 one. RSI 14 and the distance from the 20, 50 and 200-session simple averages are the

@@ -18,6 +18,8 @@ export const ALERT_ADD_FORMS: readonly AlertAddForm[] = [
   { name: "P/E, P/S or RSI", usage: "<symbol> <pe|ps|rsi(14)> <above|below> <level>" },
   { name: "moving average crossover", usage: "<symbol> ma(50) crosses <above|below> ma(200)" },
   { name: "close against a moving average", usage: "<symbol> closes <above|below> ma(200)" },
+  { name: "ratio of two listings", usage: "<symbol>/<benchmark> <above|below|crosses> <ratio>" },
+  { name: "RRG quadrant", usage: "<symbol> rrg <leading|weakening|lagging|improving> [--benchmark <symbol>]" },
   { name: "earnings", usage: "<symbol> earnings [--days <n> | results]" },
   { name: "economic calendar release (CPI, FOMC, NBS PMI)", usage: "<calendar event> [--country <code>] [--days <n>]" },
   { name: "news keyword", usage: "[symbol] news <keyword>" },

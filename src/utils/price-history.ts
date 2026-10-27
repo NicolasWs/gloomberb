@@ -2,7 +2,7 @@ import type { PricePoint, TickerFinancials } from "../types/financials";
 import { canonicalExchange } from "./exchanges";
 import { isRoundTheClockCoin } from "./crypto-pair";
 import { isCurrencyPairListing, isFxMarketOpen, latestFxWeekClose, latestFxWeekOpen } from "./fx-market-hours";
-import { hasPublishedSessionCalendar, historySourceWeekendDays, latestRegularSessionClose, latestRegularSessionOpen, sessionCalendarTimeZone } from "../market-data/market/freshness";
+import { hasPublishedSessionCalendar, historySourceWeekendDays, isMiddayBreakPrint, latestRegularSessionClose, latestRegularSessionOpen, sessionCalendarTimeZone } from "../market-data/market/freshness";
 import { zonedDateTimeParts } from "./zoned-date-time";
 import { regularHistorySessionStaleness } from "../market-data/history-session";
 import type { HistorySession } from "../types/price-history";
@@ -234,6 +234,12 @@ export function isPriceHistoryStaleForCurrentWindow(
   const age = now - latestTime;
   const allowedLag = allowedBarLagMs(intervalMs);
   if (age <= allowedLag) return false;
+  // A venue paused at midday (SSE/SZSE/BSE, TKO, ...) holds the morning's last
+  // bar current through the break, as the quote freshness rule does. A bar is
+  // labelled by its start, so an hourly bar ending at the break is judged by
+  // when it ends.
+  const latestBarEnd = intervalMs != null ? Math.min(latestTime + intervalMs, now) : latestTime;
+  if (isMiddayBreakPrint(latestBarEnd, options.exchange, now, 0)) return false;
   const sessions = listingSessionsAt(now, options);
   if (!sessions) return age > UNSCHEDULED_HISTORY_MAX_AGE_MS;
   const fetchedAt = options.fetchedAt ?? Number.NEGATIVE_INFINITY;
